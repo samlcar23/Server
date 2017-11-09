@@ -61,7 +61,7 @@ public class ListClient {
 			out.reset();
 			out.writeObject(serverList);
 			
-			out.close();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

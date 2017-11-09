@@ -68,7 +68,7 @@ public class ListHandler extends Thread {
                handler.out.reset();
                handler.out.writeObject(serverList);
                
-               handler.out.close();
+               
             } catch (IOException ex) { 
                handler.stop(); 
             } 
