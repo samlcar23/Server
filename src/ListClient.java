@@ -40,12 +40,16 @@ public class ListClient {
 			in = new ObjectInputStream(socket.getInputStream());
 			System.out.println("Inputstream created");
 			
-			//out.reset();
+			out.reset();
 			out.writeObject(name);
 	        while(in.available() > 0) {
-				serverList = (ArrayList<ServerInfo>) in.readObject();
+				//serverList = (ArrayList<ServerInfo>) in.readObject();
 				
-				gui.updateServerList(serverList);
+	        	String a = (String) in.readObject();
+	        	
+	        	System.out.println("Client Recieved: " + a);
+	        	
+				//gui.updateServerList(serverList);
 			}
 		}	catch (Exception e)	{ 
 			e.printStackTrace();
@@ -54,7 +58,7 @@ public class ListClient {
 	
 	protected void sendObjectToServer(ArrayList<ServerInfo> serverList) {
 		try {
-			//out.reset();
+			out.reset();
 			out.writeObject(serverList);
 			
 			out.close();

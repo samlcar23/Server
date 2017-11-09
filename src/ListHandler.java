@@ -21,9 +21,9 @@ public class ListHandler extends Thread {
       this.socket = socket;
       this.out = out;
       this.in= in;
-      //out = new ObjectOutputStream (socket.getOutputStream());
-     // out.flush();
-     // in = new ObjectInputStream (socket.getInputStream());
+//      out = new ObjectOutputStream(socket.getOutputStream());
+//      out.flush();
+//      in = new ObjectInputStream(socket.getInputStream());
       
    } 
     
@@ -35,8 +35,9 @@ public class ListHandler extends Thread {
 
          while(in.available() > 0) {
         	 @SuppressWarnings("unchecked")
-			ArrayList<ServerInfo> list = (ArrayList<ServerInfo>) in.readObject();
+			 ArrayList<ServerInfo> list = (ArrayList<ServerInfo>) in.readObject();
         	 serverList = list;
+        	 
         	 broadcast(serverList);
          } 
 
@@ -47,7 +48,7 @@ public class ListHandler extends Thread {
 		e.printStackTrace();
 	} finally { 
          handlers.removeElement (this); 
-        // broadcast(name+" left");
+         //broadcast(name+" left");
          try { 
             socket.close();
          } catch (IOException ex) { 
@@ -57,14 +58,17 @@ public class ListHandler extends Thread {
    }
     
 
-   protected static void broadcast (ArrayList<ServerInfo> list) { 
+   protected static void broadcast (ArrayList<ServerInfo> serverList) { 
       synchronized (handlers) { 
          Enumeration<ListHandler> e = handlers.elements (); 
          while (e.hasMoreElements()) { 
             ListHandler handler = (ListHandler) e.nextElement(); 
             try { 
+            	
                handler.out.reset();
-               handler.out.writeObject(list);
+               handler.out.writeObject(serverList);
+               
+               handler.out.close();
             } catch (IOException ex) { 
                handler.stop(); 
             } 
